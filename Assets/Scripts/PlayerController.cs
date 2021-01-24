@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public float cameraSpeedX, cameraSpeedY;
     public float cameraDist;
 
-    public float camX, camY;
+    private float camRotX, camRotY;
 
     public new Camera camera;
     public GameObject wagon;
@@ -22,8 +22,8 @@ public class PlayerController : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
 
-        camX = camera.transform.eulerAngles.x;
-        camY = camera.transform.eulerAngles.y;
+        camRotX = camera.transform.eulerAngles.x;
+        camRotY = camera.transform.eulerAngles.y;
     }
 
     void Update()
@@ -52,15 +52,15 @@ public class PlayerController : MonoBehaviour
             deltaPos = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0) * deltaPos;
             transform.position += deltaPos * playerSpeed * Time.deltaTime;
 
-            camX += Input.GetAxis("Mouse X") * cameraSpeedX;
-            camY -= Input.GetAxis("Mouse Y") * cameraSpeedY;
-            if (camY < -4) camY = -4;
-            else if (camY > 85) camY = 85;
-            Quaternion camRot = Quaternion.Euler(camY, camX, 0);
+            camRotX += Input.GetAxis("Mouse X") * cameraSpeedX;
+            camRotY -= Input.GetAxis("Mouse Y") * cameraSpeedY;
+            if (camRotY < -4) camRotY = -4;
+            else if (camRotY > 85) camRotY = 85;
+            Quaternion camRot = Quaternion.Euler(camRotY, camRotX, 0);
             Vector3 camPos = camRot * new Vector3(0, 0, -cameraDist) + transform.position;
 
             camera.transform.rotation = camRot;
-            transform.rotation = Quaternion.Euler(0, camX, 0);
+            transform.rotation = Quaternion.Euler(0, camRotX, 0);
             camera.transform.position = camPos;
 
             RaycastHit hit;
