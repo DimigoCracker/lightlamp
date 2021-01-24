@@ -7,10 +7,11 @@ public class Light : MonoBehaviour
 {
     public string clearSceneNmae;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.collider.CompareTag("Player"))
         {
+            Debug.Log("접촉");
             SceneManager.LoadScene(clearSceneNmae);
         }
     }
